@@ -4,6 +4,17 @@ angular.module('spliced.draw', [])
   // drawing info will go here.
   $scope.data = {};
 
+  $scope.canvas = {
+    undo: true, 
+    width: 440, 
+    height: 440, 
+    color: 'black', 
+    lineWidth: 4,
+    imageSrc: undefined,
+    pallette: ['#ee4035', ' #f37736', '#fdf498', '#7bc043','#0392cf','#909090','#000000','#ffffff']
+  };
+
+
   $scope.data.drawing = {};
 
   // This drawing.version counter is for the Undo button that comes with the angular canvas painting directive.
@@ -88,8 +99,12 @@ angular.module('spliced.draw', [])
 
 
   $scope.sendDrawing = function () {
-    var imageURL = document.getElementById("pwCanvasMain").toDataURL();
-    Socket.emit('drawing', {"tileID": $scope.data.userId, "imageURL": imageURL});
+    var dataURL = document.getElementById("pwCanvasMain").toDataURL();
+    Socket.emit('drawing', {
+      "x": $scope.data.userId % 2,
+      "y": $scope.data.userId > 1 ? 1 : 0,
+      "dataURL": dataURL
+    });
   };
 
 

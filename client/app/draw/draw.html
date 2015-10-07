@@ -1,14 +1,24 @@
 <div id='draw'> 
-  <div class="drawing-area" ng-hide="data.submitted">
-    You are drawing the {{ data.bodyPart[data.userId] }}! 
-    <div pw-canvas options="{undo: true, width: 400, height: 200, color: '#000', lineWidth: 4, imageSrc: data.templateSrc}" ng-model="data.drawing" class="canvas-container" version="data.drawing.version" ng-mouseup="sendDrawing()"></div>
-    <a class="button" ng-click="save()">Save Drawing</a>
-    <a ng-click="undo()" class="button minor">Undo</a>
+  <div class="game-info">
+    <span class="prompt">Horse</span>
+    <span class="tile-label">A1</span>
+    <span class="countdown">0:10</span>
+</div>
+  <div pw-canvas options="canvas" ng-model="data.drawing" class="view-canvas" version="data.drawing.version" ng-mousemove="sendDrawing()"></div>
+  <div pw-color-selector="canvas.pallette" color="canvas.color"></div>
+  
+  <div class="size-selector">
+    <svg  width="100" height="40">
+      <circle ng-click="canvas.lineWidth = 10" cx="80" cy="20" r="10" fill={{canvas.color}} />
+      <circle ng-click="canvas.lineWidth = 8"  cx="58" cy="20" r="8"  fill={{canvas.color}} />
+      <circle ng-click="canvas.lineWidth = 6"  cx="40" cy="20" r="6"  fill={{canvas.color}} />
+      <circle ng-click="canvas.lineWidth = 4"  cx="25" cy="20" r="4"  fill={{canvas.color}} />
+    </svg>
+  </div>
+  
+  <div id='undo'>
+    <a ng-click="undo()" class="button minor">X</a>
   </div>
 
-  <div class="drawing-success" ng-show="data.submitted">
-    {{ data.success }}
-    <p><a ng-click="getGameStatus()" class="button">OK</a></p>
-  </div>
-
+  
 </div>

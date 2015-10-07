@@ -22,7 +22,7 @@ a.button {
   color: #fff;
   cursor: pointer;
   margin-top: 10px;
-  float: left;
+  /*float: left;*/
   margin-right: 10px;
 }
 
@@ -68,30 +68,62 @@ input {
   display: block;
   width:450px;
   height:450px;
-  border: 1px solid blue;
+  border: 2px solid #C6BDBA;
 }
 
 .game-info {
   margin: 10px auto;
   width:100%;
   text-align: center;
-  background-color: #D2DFE8;
+  /*background-color: #D2DFE8;*/
 }
 
 .game-info span {
   /*margin:10px;*/
-  width: 200px;
+  padding: 0 10px;
   margin-left: auto;
   margin-right: auto;
-  display: block;
+  display: inline-block;
   font-size: 30px;
-  background-color: 
 }
 
 .game-info .countdown {
   color:#FA2A00;
 }
 
+.game-info .prompt {
+  display: inline-block; 
+}
+
+.game-info .tile-label {
+
+}
+
+.pwColorSelector{
+  margin: 10px auto;
+  width: 100%;
+  text-align: center;
+}
+
+.pwColorSelector li {
+  margin: 4px;
+  display: inline-block;
+  width:20px;
+  height:20px;
+  position: relative;
+}
+
+.size-selector {
+  margin: 10px auto;
+  width: 100%;
+  text-align: center;
+}
+
+#undo {
+  margin: 10px auto;
+  width: 100%;
+  text-align: center;
+}
 
 
 /*end of hdhcss*/

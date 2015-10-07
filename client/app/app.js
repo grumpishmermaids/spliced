@@ -7,7 +7,6 @@ angular.module('spliced', [
   'pw.canvas-painter',
   'spliced.home',
   'ngCookies',
-  'spliced.socket',
   'spliced.spliceChat'
 ])
 .config(function ($routeProvider, $httpProvider) {
