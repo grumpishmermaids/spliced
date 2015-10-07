@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha Server/test/test.js; RES=$?; kill %1; exit $RES",
     "postinstall": "node node_modules/bower/bin/bower install",
-    "start": "node Server/server.js"
+    "start": "nodemon Server/server.js"
   },
   "repository": {
     "type": "git",

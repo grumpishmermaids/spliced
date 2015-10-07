@@ -52,6 +52,7 @@ angular.module('spliced.draw', [])
 
   $scope.save = function() {
     var image = document.getElementById("pwCanvasMain").toDataURL();
+    console.log("-------------------------------------------", image);
     Draw.save(image, $scope.data.gameCode, $cookies.getAll());
     $scope.data.submitted = true;
     // send the image to the server.

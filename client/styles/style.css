@@ -54,12 +54,47 @@ input {
   padding: 5px;
   margin-bottom: 5px;
 }
-
-.canvas-container canvas {
-  margin-top: 10px;
-  border: 1px solid #eee;
+/*hdh css*/
+.canvas-container {
+  margin: 0 auto;
+  width:100%;
 }
 
+.view-canvas {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width:450px;
+  height:450px;
+  border: 1px solid blue;
+}
+
+.game-info {
+  margin: 10px auto;
+  width:100%;
+  text-align: center;
+  background-color: #D2DFE8;
+}
+
+.game-info span {
+  /*margin:10px;*/
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  font-size: 30px;
+  background-color: 
+}
+
+.game-info .countdown {
+  color:#FA2A00;
+}
+
+
+
+/*end of hdhcss*/
 .container {
   width: 100%;
   max-width: 100%;
@@ -99,6 +134,6 @@ h1 {
 
 @media (max-width: 400px) {
   img {
-    width: 100%;
+      width: 100%;
   }
 }

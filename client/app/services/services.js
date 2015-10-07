@@ -21,7 +21,7 @@ angular.module('spliced.services', [])
   services.createGame = function(callback) {
     $http.get('/game')
     .then(function (gameCode) {
-      callback(gameCode.data)
+      callback(gameCode.data);
     }, function(err) {
       console.log('There was an error getting the game code.');
     });
@@ -32,6 +32,7 @@ angular.module('spliced.services', [])
   services.registerPlayer = function(gameCode, callback){
     $http.get('/game/' + gameCode )
     .then(function(response){
+      var newUrl;
       console.log("This is the response.data from registerPlayer()", response.data);
       var submittedDrawing = response.data[gameCode + '_submitted_drawing'];
       if (response.data.game_does_not_exist) {
@@ -80,4 +81,34 @@ angular.module('spliced.services', [])
   };
 
   return services;
+
+})
+.factory('Socket', function($rootScope) {
+  var socket = io.connect();
+
+  var on = function (event, cb) {
+    socket.on(event, function () {
+      var args = arguments;
+      $rootScope.$apply(function () {
+        cb.apply(socket, args);
+      });
+    });
+  };
+
+  var emit = function (event, data, cb) {
+    socket.emit(event, data, function () {
+      var args = arguments;
+      $rootScope.$apply(function () {
+        if (cb) {
+          cb.apply(socket, args);
+        }
+      });
+    });
+  };
+
+  return {
+    on: on,
+    emit: emit
+  };
+
 });
