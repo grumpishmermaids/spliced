@@ -22,7 +22,7 @@ a.button {
   color: #fff;
   cursor: pointer;
   margin-top: 10px;
-  float: left;
+  /*float: left;*/
   margin-right: 10px;
 }
 
@@ -68,14 +68,14 @@ input {
   display: block;
   width:450px;
   height:450px;
-  border: 1px solid grey;
+  border: 2px solid #C6BDBA;
 }
 
 .game-info {
   margin: 10px auto;
   width:100%;
   text-align: center;
-  background-color: #D2DFE8;
+  /*background-color: #D2DFE8;*/
 }
 
 .game-info span {
@@ -92,7 +92,7 @@ input {
 }
 
 .game-info .prompt {
-  display: block; 
+  display: inline-block; 
 }
 
 .game-info .tile-label {
@@ -119,14 +119,12 @@ input {
   text-align: center;
 }
 
-.undo {
+#undo {
   margin: 10px auto;
+  width: 100%;
+  text-align: center;
 }
 
-.undo .button {
-  margin: 10px auto;
-  position: relative;
-}
 
 /*end of hdhcss*/
 .container {

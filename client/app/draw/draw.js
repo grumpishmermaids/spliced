@@ -6,8 +6,8 @@ angular.module('spliced.draw', [])
 
   $scope.canvas = {
     undo: true, 
-    width: 400, 
-    height: 400, 
+    width: 440, 
+    height: 440, 
     color: 'black', 
     lineWidth: 4,
     imageSrc: undefined,
