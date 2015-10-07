@@ -40,6 +40,9 @@ angular.module('spliced.view', [])
 
       this.drawSplits();
       this.drawTile(0,0);
+      this.drawTile(0,1);
+      this.drawTile(1,0);
+      this.drawTile(1,1);
     };
 
     // View.prototype.clearCanvas = function() {
