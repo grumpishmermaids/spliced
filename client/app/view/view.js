@@ -7,13 +7,14 @@ angular.module('spliced.view', [])
   $scope.game.prompt = "Horse";
   $scope.game.timer = "00:10";
   $scope.game.numPlayers = 4;
-  $scope.game.tiles = [];
+  $scope.game.tiles = [[],[]];
   $scope.game.drawing = undefined;
   $scope.game.version = 0;
 
 })
 .directive('myView', ['Socket', function (Socket){
 
+  //link function is invoked on intitialization by angular.
   var link = function(scope, element, attr) {
 
     var View = function(players, element) {
@@ -75,7 +76,8 @@ angular.module('spliced.view', [])
     var view = new View(scope.game.numPlayers, element);
 
     Socket.on('drawing', function (tile) {
-      scope.games.tiles[tile.x][tile.y] = tile.dataURL;
+      console.log("got data", tile);
+      scope.game.tiles[tile.x][tile.y] = tile.dataURL;
       view.drawTile(tile.x, tile.y);
     });
   };

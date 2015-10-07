@@ -1,14 +1,13 @@
 <div id='draw'> 
-  <div class="drawing-area" ng-hide="data.submitted">
-    You are drawing the {{ data.bodyPart[data.userId] }}! 
-    <div pw-canvas options="{undo: true, width: 400, height: 200, color: '#000', lineWidth: 4, imageSrc: data.templateSrc}" ng-model="data.drawing" class="canvas-container" version="data.drawing.version" ng-mouseup="sendDrawing()"></div>
-    <a class="button" ng-click="save()">Save Drawing</a>
-    <a ng-click="undo()" class="button minor">Undo</a>
-  </div>
+  <div class="game-info">
+    <span class="prompt">Horse</span>
+    <span class="countdown">0:10</span>
+    <span class="tile-label">A1</span>
+</div>
 
-  <div class="drawing-success" ng-show="data.submitted">
-    {{ data.success }}
-    <p><a ng-click="getGameStatus()" class="button">OK</a></p>
-  </div>
+  <div pw-canvas options="canvas" ng-model="data.drawing" class="view-canvas" version="data.drawing.version" ng-mouseup="sendDrawing()"></div>
 
+  <div pw-color-selector="canvas.pallette" color="canvas.color"></div>
+
+  
 </div>
