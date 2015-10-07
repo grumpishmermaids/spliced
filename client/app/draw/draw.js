@@ -1,6 +1,6 @@
 angular.module('spliced.draw', [])
 
-.controller('DrawController', function ($scope, $route, Draw, $q, $location, $cookies) {
+.controller('DrawController', function ($scope, $route, Draw, $q, $location, $cookies, Socket, $timeout) {
   // drawing info will go here.
   $scope.data = {};
 
@@ -13,12 +13,14 @@ angular.module('spliced.draw', [])
 
   $scope.undo = function() { 
     $scope.data.drawing.version--;
-  } 
+
+    $timeout($scope.sendDrawing, 20);
+  };
 
   // If the image has been submitted, we'll show the user a success message
 
   $scope.data.submitted = $scope.data.submitted || false;
-  $scope.data.success = "Success! Your image has been submitted!"
+  $scope.data.success = "Success! Your image has been submitted!";
 
   // This grabs the game code, generated at the home screen, and passes it into our save function.
 
@@ -64,7 +66,7 @@ angular.module('spliced.draw', [])
       console.log("The game status response is...", response);
       // if the game has the property imageURL
       if (response.data.hasOwnProperty("imageURL")) {
-        // direct user to /result page
+        // direct user to /result page                                              <--- wtf goes here?
 
       }
       var submittedDrawing = $scope.data.gameCode + '_submitted_drawing';
@@ -76,6 +78,20 @@ angular.module('spliced.draw', [])
       }
     });
   };
+
+
+  // $scope.$watch('data.drawing.version', function() {
+  //   var imageURL = document.getElementById("pwCanvasMain").toDataURL();
+  //   console.log('drawing has changed!', imageURL);
+  //   Socket.emit('drawing', imageURL);
+  // });
+
+
+  $scope.sendDrawing = function () {
+    var imageURL = document.getElementById("pwCanvasMain").toDataURL();
+    Socket.emit('drawing', {"tileID": $scope.data.userId, "imageURL": imageURL});
+  };
+
 
 
 
