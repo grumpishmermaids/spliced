@@ -1,0 +1,16 @@
+<div id='view' ng-controller='ViewController'> 
+  <div class="drawing-area">
+    
+    <div class="game-info">
+      <span class="countdown">{{game.timer}}</span>
+      <span>{{game.prompt}}</span>
+    </div>
+    
+    <div my-view class='canvas-container'>
+      <canvas class='view-canvas'></canvas>
+    </div>
+
+    <a ng-click="save()" class="button minor">Save Image</a>
+    </div>
+
+</div>

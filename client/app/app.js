@@ -2,6 +2,7 @@ angular.module('spliced', [
   'spliced.services',
   'spliced.draw',
   'spliced.ready',
+  'spliced.view',
   'ngRoute',
   'pw.canvas-painter',
   'spliced.home',
@@ -15,6 +16,10 @@ angular.module('spliced', [
     })
     .when('/game', {
       redirectTo: '/'
+    })
+    .when('/game/view', {
+      templateUrl: 'app/view/view.html',
+      controller: 'ViewController'
     })
     .when('/game/:code', {
       templateUrl: 'app/ready/ready.html',
