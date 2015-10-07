@@ -113,6 +113,12 @@ input {
   position: relative;
 }
 
+.size-selector {
+  margin: 10px auto;
+  width: 100%;
+  text-align: center;
+}
+
 
 
 /*end of hdhcss*/
