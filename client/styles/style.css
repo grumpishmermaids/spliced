@@ -102,3 +102,9 @@ h1 {
     width: 100%;
   }
 }
+
+.honky {
+  border: 1px solid black;
+  min-width: 200px;
+  height: 200px;
+}

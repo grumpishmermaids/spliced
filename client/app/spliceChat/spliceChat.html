@@ -7,8 +7,31 @@
     <input type="submit" id="chatinput" value="Submit" />
   </form>
 
-  <div class="finalImage" ><img src="{{imageURL}}"/></div>
-
+  <table>
+    <tr>
+      <td>
+ <!--      <div ng-repeat="panel in panels">
+        <p>panel {{$index}} {{panel}}</p>
+        <div class="finalImage" ><img src="{{panel}}"/></div>
+      </div> -->
+          
+        <div class="honky"><img src="{{panels[0]}}"/></div>
+      </td>
+      <td>
+        <div class="honky"><img src="{{panels[1]}}"/></div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="honky"><img src="{{panels[2]}}"/></div>
+        </td>
+      <td>
+        <div class="honky"><img src="{{panels[3]}}"/></div>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>FUCKIN' MESSAGES</h3>
   <p ng-repeat="msg in messages">{{msg}}</p>
 
 </div>

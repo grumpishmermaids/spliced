@@ -3,7 +3,8 @@ angular.module('spliced.spliceChat', [])
 
   $scope.msg = "";
   $scope.messages = [];
-  $scope.imageURL = null;
+  $scope.panels = [0, 1, 2, 3];
+  // $scope.imageURL = null;
 
   $scope.sendMsg = function () {
     Socket.emit('chatmsg', $scope.msg);
@@ -14,9 +15,10 @@ angular.module('spliced.spliceChat', [])
     $scope.messages.push(msg);
   });
 
-  Socket.on('drawing', function (dataURL) {
-    console.log("got drawing:", dataURL);
-    $scope.imageURL = dataURL;
+  Socket.on('drawing', function (data) {
+    console.log("got drawing:", data);
+    // $scope.imageURL = dataURL;
+    $scope.panels[data.tileID] = data.imageURL;
   });
 
 

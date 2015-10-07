@@ -85,10 +85,10 @@ angular.module('spliced.draw', [])
   //   Socket.emit('drawing', imageURL);
   // });
 
+
   $scope.sendDrawing = function () {
     var imageURL = document.getElementById("pwCanvasMain").toDataURL();
-    console.log('mouse release!', imageURL);
-    Socket.emit('drawing', imageURL);
+    Socket.emit('drawing', {"tileID": $scope.data.userId, "imageURL": imageURL});
   };
 
 

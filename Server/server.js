@@ -11,14 +11,16 @@ require('./config/middleware.js')(app, express);
 //////////EXPERIMENT///////////
 
 io.on('connection', function (socket) {
+
   console.log('user connected with ID:', socket.id);
   socket.on('chatmsg', function (msg) {
     console.log("got msg:", msg);
     io.emit('chatmsg', msg);
   });
-  socket.on('drawing', function (dataURL) {
-    console.log("got drawing:", dataURL);
-    io.emit('drawing', dataURL);
+  
+  socket.on('drawing', function (data) {
+    console.log("got drawing:", data);
+    io.emit('drawing', data);
   });
 
 });
