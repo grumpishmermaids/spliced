@@ -1,0 +1,14 @@
+
+<!-- <div ng-view class="container"> -->
+<div id="splicechat">
+  <form ng-submit="sendMsg()">
+    Enter text and hit enter:
+    <input ng-model="msg" />
+    <input type="submit" id="chatinput" value="Submit" />
+  </form>
+
+  <div class="finalImage" ><img src="{{imageURL}}"/></div>
+
+  <p ng-repeat="msg in messages">{{msg}}</p>
+
+</div>

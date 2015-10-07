@@ -31,7 +31,8 @@
     "mongoose": "^4.1.8",
     "morgan": "^1.1.1",
     "nodemon": "^1.7.0",
-    "request": "^2.36.0"
+    "request": "^2.36.0",
+    "socket.io": "^1.3.7"
   },
   "homepage": "https://github.com/Sulfuric-Sunshine/spliced#readme",
   "devDependencies": {
