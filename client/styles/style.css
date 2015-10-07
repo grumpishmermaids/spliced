@@ -119,7 +119,14 @@ input {
   text-align: center;
 }
 
+.undo {
+  margin: 10px auto;
+}
 
+.undo .button {
+  margin: 10px auto;
+  position: relative;
+}
 
 /*end of hdhcss*/
 .container {
