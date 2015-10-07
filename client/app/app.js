@@ -6,7 +6,9 @@ angular.module('spliced', [
   'ngRoute',
   'pw.canvas-painter',
   'spliced.home',
-  'ngCookies'
+  'ngCookies',
+  'spliced.socket',
+  'spliced.spliceChat'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
@@ -32,6 +34,10 @@ angular.module('spliced', [
     .when('/game/:code/status', {
       templateUrl: 'app/ready/status.html',
       controller: 'ReadyController'
+    })
+    .when('/spliceChat', {
+      templateUrl: 'app/spliceChat/spliceChat.html',
+      controller: 'SpliceChatController'
     })
     .otherwise({
       redirectTo: '/'

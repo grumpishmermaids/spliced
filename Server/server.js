@@ -1,12 +1,37 @@
 var express = require('express');
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 
 // configure our server with all the middleware and and routing
 require('./config/middleware.js')(app, express);
+
+
+//////////EXPERIMENT///////////
+
+io.on('connection', function (socket) {
+
+  console.log('user connected with ID:', socket.id);
+  socket.on('chatmsg', function (msg) {
+    console.log("got msg:", msg);
+    io.emit('chatmsg', msg);
+  });
+  
+  socket.on('drawing', function (data) {
+    console.log("got drawing:", data);
+    io.emit('drawing', data);
+  });
+
+});
+//////////////////////////////////
+
+
+
 var port = process.env.PORT || 4568;
 
-app.listen(port, function(){
+server.listen(port, function(){
+  console.log("Howdy!");
   console.log("Listening on: " + port);
 });
 
