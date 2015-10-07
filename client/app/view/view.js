@@ -18,8 +18,9 @@ angular.module('spliced.view', [])
   $scope.game.version = 0;
 
 })
-.directive('myView', function($window){
+.directive('myView', ['Socket', function (Socket){
   //intiatilize the canvas... 
+  console.log(Socket.on);
 
   var link = function(scope, element, attr) {
 
@@ -39,10 +40,6 @@ angular.module('spliced.view', [])
       }
 
       this.drawSplits();
-      this.drawTile(0,0);
-      this.drawTile(0,1);
-      this.drawTile(1,0);
-      this.drawTile(1,1);
     };
 
     // View.prototype.clearCanvas = function() {
@@ -83,12 +80,17 @@ angular.module('spliced.view', [])
         (this.height_interval)); //height of image
     };
 
-    new View(scope.game.numPlayers, element);
+    var view = new View(scope.game.numPlayers, element);
+
+    Socket.on('drawing', function (tile) {
+      scope.games.tiles[tile.x][tile.y] = tile.dataURL;
+      view.drawTile(tile.x, tile.y);
+    });
   };
 
   return {link : link};
 
-});
+}]);
 
 
 
