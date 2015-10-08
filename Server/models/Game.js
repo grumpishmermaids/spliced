@@ -39,8 +39,9 @@ Game.prototype.startGame = function () {
   var newVictimId;
   while (drawerCount < this.numTiles) {
     newVictimId = Math.floor(Math.random()*this.nextAvailablePlayerId);
-    if (this.playersById[i].role !== "drawer") {
-      this.playersById[i].role = "drawer";
+    if (this.playersById[newVictimId].role !== "drawer") {
+      this.playersById[newVictimId].role = "drawer";
+      this.playersById[newVictimId].panel = drawerCount;
       drawerCount++;
     }
   }
