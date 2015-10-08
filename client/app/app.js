@@ -1,13 +1,14 @@
 angular.module('spliced', [
   'spliced.services',
+  'spliced.home',
   'spliced.draw',
   'spliced.ready',
   'spliced.view',
+  'spliced.guesser',
+  'spliced.waitingScreen',
   'ngRoute',
-  'pw.canvas-painter',
-  'spliced.home',
   'ngCookies',
-  'spliced.spliceChat'
+  'pw.canvas-painter'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
@@ -38,7 +39,10 @@ angular.module('spliced', [
       templateUrl: 'app/draw/draw.html',
       controller: 'DrawController'
     })
-    .when('/guesser')
+    .when('/guesser', {
+      templateUrl: 'app/guesser/guesser.html',
+      controller: 'GuesserController'
+    })
     .otherwise({
       redirectTo: '/home'
     });
