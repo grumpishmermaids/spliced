@@ -19,18 +19,19 @@ var createGame = function (options) {
 };
 
 var addPlayerToGame = function (gameCode, playerOptions) {
-  var player = new Player(playerOptions);
-  var targetGame = activeGames[gameCode];
-  if (targetGame) {
-    targetGame.addPlayer(player);
-    return targetGame;
-  } else {
-    return null;     // if no game matching code, send back null
+  var game = activeGames[gameCode] || null;
+  if (game !== null) {
+    game.addPlayer(playerOptions);
   }
+  return game;
 };
 
 var getTimeLimit = function (gameCode) {
   return activeGames[gameCode].timeLimit;
+};
+
+var startGame = function (gameCode) {
+  return activeGames[gameCode].startGame();
 };
 
 var checkGuess = function (gameCode, player, guess) {
