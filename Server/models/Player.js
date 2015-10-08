@@ -1,7 +1,9 @@
-var Player = function (gameCode, playerId, options) {
-  this.playerId = playerId;
-  this.playerName = options.playerName || "anonymous";
-  this.artistPanel = null;
+var Player = function (playerOptions) {
+  this.socketId = playerOptions.socketId;
+  this.playerId = 0;
+  this.playerName = playerOptions.playerName || "anonymous";
+  this.panel = null;
+  this.role = "guesser";
   this.score = 0;
 };
 
