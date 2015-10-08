@@ -1,8 +1,8 @@
 var gameLogic = require('../game/gameLogic.js');
 var getRandomPrompt = require('../game/prompts.js');
 
-var Game = function (options) {
-  this.code = gameLogic.createUniqueGameCode();
+var Game = function (gameCode, options) {
+  this.code = gameCode;
   this.prompt = getRandomPrompt();
   this.name = options.name || "AWESOME SPLICED GAME";
   this.numTiles = options.numTiles || 4;
@@ -24,6 +24,5 @@ Game.prototype.checkGuess = function (player, guess) {
   }
   return false;
 };
-
 
 module.exports = Game;

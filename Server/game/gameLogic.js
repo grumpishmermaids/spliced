@@ -12,7 +12,8 @@ var activeGames = {};
 
 
 var createGame = function (options) {
-  var newGame = new Game(options);
+  var newCode = createUniqueGameCode();
+  var newGame = new Game(newCode, options);
   activeGames[newGame.code] = newGame;
   return newGame;
 };
@@ -37,14 +38,8 @@ var checkGuess = function (gameCode, player, guess) {
 };
 
 
-
-
-
-
-
-
 var gameCodeInUse = function (gameCode) {
-  return !activeGames[gameCode];
+  return (activeGames[gameCode] !== undefined);
 };
 
 var createUniqueGameCode = function () {  //TODO: guarantee unique?
@@ -56,7 +51,9 @@ var createUniqueGameCode = function () {  //TODO: guarantee unique?
     for( var i=0; i < 4; i++ ) {
       code += possible.charAt(Math.floor(Math.random() * possible.length));
     }
+    console.log("checking code:", code);
     if (!gameCodeInUse(code)) {
+      console.log("unique code found!");
       return code;
     }
   }
