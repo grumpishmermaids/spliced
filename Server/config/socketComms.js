@@ -21,6 +21,10 @@ module.exports = function (app, server) {
       io.to(client.gameCode).emit('gameCreated', client.gameCode);   // send to everyone in game (only host at this point) newly created game info
     });
 
+    client.on('gameInit', function() {
+      io.to(client.gameCode).emit('gameInfo', gameLogic.getGame(client.gameCode));
+    });
+
 
     // listen for players joining game, send them game info
     client.on('joinGame', function (data) {  // when new player joins a game
