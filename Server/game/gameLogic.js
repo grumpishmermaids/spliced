@@ -10,6 +10,9 @@ var Player = require('../models/Player.js');
 // so it's fine to store everything in server memory for now
 var activeGames = {};
 
+var getGame = function(code) {
+  return activeGames[code];
+};
 
 var createGame = function (options) {
   var newCode = createUniqueGameCode();

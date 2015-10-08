@@ -6,9 +6,9 @@ angular.module('spliced.view', [])
     Socket.emit('gameInit');
   };
   
-  Socket.on('gameData', function(gameData){
-    for(var key in gameData){
-      scope.game.key = gameData.key;
+  Socket.on('gameInfo', function(gameInfo){
+    for(var key in gameInfo){
+      scope.game.key = gameInfo.key;
     }
     //not sure we need this, but will force an update of dom...
     $scope.$digest();
@@ -33,13 +33,10 @@ angular.module('spliced.view', [])
 
 })
 .directive('myView', ['Socket', function (Socket){
-
   //link function is invoked on intitialization by angular.
   var link = function(scope, element, attr) {
-
     var View = function(players, element) {
       this.players = players;
-
       //creates the canvas on which to display images
       this.ctx = element.children()[0].getContext('2d');
       this.ctx.canvas.width = element[0].clientWidth;
