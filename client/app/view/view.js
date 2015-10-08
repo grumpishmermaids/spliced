@@ -7,17 +7,17 @@ angular.module('spliced.view', [])
   };
   
   Socket.on('gameInfo', function(gameInfo){
-    for(var key in gameInfo){
+    for(var key in gameInfo) {
       scope.game.key = gameInfo.key;
     }
     //not sure we need this, but will force an update of dom...
-    $scope.$digest();
+    // $scope.$digest();
   });
 
   Socket.on('newPlayer', function(playerData){
     players.push(playersData);
     //not sure we need this, but will force an update of dom...
-    $scope.$digest();
+    // $scope.$digest();
   });
 
   $scope.game = {
