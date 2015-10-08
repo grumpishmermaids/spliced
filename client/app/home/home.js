@@ -9,13 +9,12 @@ angular.module('spliced.home', [])
       console.log(code);
       $location.path('/game/' + code);
     });
-  }
+  };
 
   // When a user enters the game code into the form field, they'll get forwarded to the ready screen
   // which allows them to opt in to a drawing.
-  $scope.enterCode = function(gameCode) {
-    var newUrl = '/game/' + gameCode.toLowerCase();
-    $location.path(newUrl);
-  }
+  $scope.newPlayer = function() {
+    $location.path('/newPlayer');
+  };
 
-})
+});
