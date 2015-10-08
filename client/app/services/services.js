@@ -17,16 +17,6 @@ angular.module('spliced.services', [])
     });
   };
 
-  // This makes a GET request to the game, which returns a game code to us
-  services.createGame = function(callback) {
-    $http.get('/game')
-    .then(function (gameCode) {
-      callback(gameCode.data);
-    }, function(err) {
-      console.log('There was an error getting the game code.');
-    });
-  };
-
   // This makes a POST request to the server and takes the user to the /draw page if
   // the player was successfully registered. 
   services.registerPlayer = function(gameCode, callback){

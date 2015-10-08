@@ -1,0 +1,17 @@
+<div id="createGameController">
+  <div class="game-start" ng-hide="data.isComplete">
+    <h2>Create Game</h2>
+    
+    <p>Game name</p>
+    <input type="text" ng-model="gameName" autofocus>
+    <p>How many drawers?</p>
+    <select ng-model="numOfDrawers">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="4">4</option>
+      <option value="9">9</option>
+    </select>
+    <br><br>
+    <a class="button" ng-click="sendGameData(gameName, numOfDrawers)">Enter Game</a>
+  </div>
+</div>
