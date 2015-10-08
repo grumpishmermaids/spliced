@@ -1,16 +1,22 @@
 <div id='view' ng-controller='ViewController'> 
   <div class="drawing-area">
-    
     <div class="game-info">
       <span class="countdown">{{game.timer}}</span>
       <span>{{game.prompt}}</span>
     </div>
     
-    <div my-view class='canvas-container'>
-      <canvas class='view-canvas'></canvas>
-    </div>
+    <div class='game-container'>
+      <div my-view class='canvas-container'>
+        <canvas class='view-canvas'></canvas>
+      </div>
 
+      <div class='player-list'>
+        <ul>
+          <li ng-repeat="p in game.players | orderBy: p.role"><span ng-class="p.role">{{p.name}}</span></li>
+        </ul>
+      </div>
+  </div>
     <a ng-click="save()" class="button minor">Save Image</a>
     </div>
 
-</div>f
+</div>
