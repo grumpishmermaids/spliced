@@ -4,7 +4,7 @@
     <span class="tile-label">A1</span>
     <span class="countdown">0:10</span>
 </div>
-  <div pw-canvas options="canvas" ng-model="data.drawing" class="view-canvas" version="data.drawing.version" ng-mousemove="sendDrawing()"></div>
+  <div pw-canvas options="canvas" ng-model="data.drawing" class="view-canvas" version="data.drawing.version"></div>
   <div pw-color-selector="canvas.pallette" color="canvas.color"></div>
   
   <div class="size-selector">
@@ -21,4 +21,8 @@
   </div>
 
   
+</div>
+
+<div>
+    <canvas my-drawing></canvas>
 </div>
