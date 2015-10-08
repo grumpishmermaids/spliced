@@ -1,0 +1,14 @@
+<div id="newPlayer">
+  <p>
+    What is your name?
+  </p>
+  <input type="text" placeholder="Name" ng-model="playerName" />
+  <!-- <a class="button" ng-click="createPlayer()">Play!</a> -->
+
+  <div class="enter-code-form">
+    <p>What is your game code? Find it at the top of the game view screen.</p>
+    <input type="text" placeholder="Your game code" ng-model="gameCode" />
+    <!-- <a class="button" ng-click="enterCode(gameCode)">Submit</a> -->
+    <a class="button" ng-click="enterCode(gameCode,playerName)">Submit</a>
+  </div>
+</div>

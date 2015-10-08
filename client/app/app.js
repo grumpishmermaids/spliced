@@ -1,44 +1,58 @@
 angular.module('spliced', [
   'spliced.services',
+  'spliced.home',
   'spliced.draw',
   'spliced.ready',
   'spliced.view',
+  'spliced.guesser',
+  'spliced.waitingScreen',
   'ngRoute',
-  'pw.canvas-painter',
-  'spliced.home',
   'ngCookies',
-  'spliced.spliceChat'
+  'pw.canvas-painter'
 ])
 .config(function ($routeProvider, $httpProvider) {
   $routeProvider
     .when('/', {
+      redirectTo : '/home'
+    })
+    .when('/home', {
       templateUrl: 'app/home/home.html',
       controller: 'HomeController'
     })
-    .when('/game', {
-      redirectTo: '/'
+    .when('/creategame', {
+      templateUrl : 'app/createGame/createGame.html',
+      controller  : 'CreateGameController' 
     })
-    .when('/game/view', {
+    .when('/newplayer', {
+      templateUrl : 'app/newPlayer/newPlayer.html',
+      controller  : 'NewPlayerController'
+    })
+    .when('/waitingscreen', {
+      templateUrl : 'app/waitingscreen/waitingscreen.html',
+      controller  : 'WaitingScreenController'
+    })
+    .when('/hostview', {
       templateUrl: 'app/view/view.html',
       controller: 'ViewController'
     })
-    .when('/game/:code', {
-      templateUrl: 'app/ready/ready.html',
-      controller: 'ReadyController'
-    })
-    .when('/game/:code/draw', {
+    .when('/drawer', {
       templateUrl: 'app/draw/draw.html',
       controller: 'DrawController'
     })
-    .when('/game/:code/status', {
-      templateUrl: 'app/ready/status.html',
-      controller: 'ReadyController'
-    })
-    .when('/spliceChat', {
-      templateUrl: 'app/spliceChat/spliceChat.html',
-      controller: 'SpliceChatController'
+    .when('/guesser', {
+      templateUrl: 'app/guesser/guesser.html',
+      controller: 'GuesserController'
     })
     .otherwise({
-      redirectTo: '/'
+      redirectTo: '/home'
     });
 });
+
+
+
+
+
+    // .when('/game/:code/status', {
+    //   templateUrl: 'app/ready/status.html',
+    //   controller: 'ReadyController'
+    // })
