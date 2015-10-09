@@ -1,17 +1,27 @@
 angular.module('spliced.view', [])
 
 .controller('ViewController', function ($scope, Socket) {
+  $scope.game = {
+    code : null,
+    name : null,
+    nextAvailablePlayerId : null,
+    numTiles : null,
+    prompt : null,
+    timeLimit : null,
+    players : [],
+    version : 0 // for undo...
+  };
+
   // drawing info will go here.
   $scope.init = function() {
     Socket.emit('gameInit');
   };
   
   Socket.on('gameInfo', function(gameInfo){
+    console.log(gameInfo);
     for(var key in gameInfo) {
-      scope.game.key = gameInfo.key;
+      $scope.game[key] = gameInfo[key];
     }
-    //not sure we need this, but will force an update of dom...
-    // $scope.$digest();
   });
 
   Socket.on('newPlayer', function(playerData){
@@ -21,16 +31,10 @@ angular.module('spliced.view', [])
   });
 
   $scope.gameStart = function() {
+    console.log("-------------------------------------------","Game Started!");
     Socket.emit('gameStart');
   };
 
-  $scope.game = {
-    prompt : null,
-    timer : null,
-    numDrawers : 1,
-    players : [],
-    version : 0 // for undo...
-  };
 
   //make scope accessable to window for debugging
   window.scope = $scope;
@@ -101,7 +105,7 @@ angular.module('spliced.view', [])
     };
 
     //initialize the view on the element when the players change...
-    scope.$watch('game.numDrawers', function(newVal) {
+    scope.$watch('game.numTiles', function(newVal) {
       scope.view = new View(newVal, element);
     });
 
