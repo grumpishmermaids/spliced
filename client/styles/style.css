@@ -185,6 +185,21 @@ input {
   clear: both;
 }
 
+.enter-name{
+  margin-top: 20px;
+  clear: both;
+  float: left;
+}
+.enter-name input {
+  font-size: 24px;
+  float: left;
+  clear: both;
+}
+.enter-name a {
+  float: left;
+  clear: both;
+}
+
 h1 {
   background: url(../assets/images/spliced-logo.png) 0 0 no-repeat;
   width: 167px;
