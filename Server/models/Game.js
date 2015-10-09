@@ -1,6 +1,9 @@
 var gameLogic = require('../game/gameLogic.js');
 var getRandomPrompt = require('../game/prompts.js');
 var Player = require('../models/Player.js');
+var _ = require('lodash');
+var Levenshtein = require('fast-levenshtein');
+
 
 
 var Game = function (gameCode, options) {
@@ -52,104 +55,106 @@ Game.prototype.startGame = function () {
 };
 
 Game.prototype.submitGuess = function (socketId, guess) {
-  if (guess === this.prompt) {
+  var guesser = this.playersBySocket[socketId];
+
+  // if (guess === this.prompt) {  //pre-keith/levenshtein version just compared string equality
+  var levScore = levCompare(guess, this.prompt);  // uses modified fast-levenshtein algorithm to accept near-correct answers
+  var tolerance = 4;                           // how close is close enough for us?
+
+  var result = {
+    player: guesser,
+    guess: guess,
+    levScore: levScore,
+    bingo: false,
+    gameOver: false
+  };
+
+  if (levScore <= tolerance) {
+    result.bingo = true;
     // guesser gets points based on how many correct guesses have already been entered
     var pointsAwarded = this.numTiles - this.currentRound.correctGuesses;
-    this.playersBySocket[socketId].score += pointsAwarded;
+    guesser.score += pointsAwarded;
     // drawers also get points per correct guess
     this.players.forEach(function (player) {
       if (player.role === "drawer") {
         player.score++;
       }
     });
-
     this.currentRound.correctGuesses++;
-
-    return {
-      bingo: true,
-      player: this.playersBySocket[socketId],
-      gameOver: this.currentRound.correctGuesses >= this.numTiles
-    };
-    //DO SOMETHING TO GIVE PLAYER POINTS?
   }
-  return {
-    bingo: false,
-    player: this.playersBySocket[socketId],
-    gameOver: false
-  };
+  return result;
 };
 
 
+function levCompare(given, answer) {
+  if (!Array.isArray(answer)) {
+    answer = [answer];
+  }
 
-// function compare(given, answer) {
-//   if (!Array.isArray(answer)) {
-//     answer = [answer];
-//   }
+  var scores = [];
+  _.each(answer, function(word) {
+    scores.push(run(given, word));
+  });
+  console.log(scores);
+  return Math.min.apply(null, scores);
 
-//   var scores = [];
-//   _.each(answer, function(word) {
-//     scores.push(run(given, word));
-//   });
-//   console.log(scores);
-//   return Math.min.apply(null, scores);
+  function run(given, answer) {
+    // Unimportant words to ignore
+    var unimportant = ["a", "an", "the", "of"];
 
-//   function run(given, answer) {
-//     // Unimportant words to ignore
-//     var unimportant = ["a", "an", "the", "of"];
+    // Don't penalize capital letters
+    given  = given.toLowerCase();
+    answer = answer.toLowerCase();
 
-//     // Don't penalize capital letters
-//     given  = given.toLowerCase();
-//     answer = answer.toLowerCase();
+    // Split into words array
+    var given_split = given.split(" ");
+    var answer_split = answer.split(" ");
 
-//     // Split into words array
-//     var given_split = given.split(" ");
-//     var answer_split = answer.split(" ");
+    // Remove the unimportant words
+    given_split = given_split.filter(function(word) {
+      var small = false;
+      _.each(unimportant, function(u_word) {
+        if (Levenshtein.get(word, u_word) === 1) {
+          small = true;
+        }
+      });
 
-//     // Remove the unimportant words
-//     given_split = given_split.filter(function(word) {
-//       var small = false;
-//       _.each(unimportant, function(u_word) {
-//         if (Levenshtein.get(word, u_word) === 1) {
-//           small = true;
-//         }
-//       });
+      if (small) {
+        return false;
+      }
+      return unimportant.indexOf(word) === -1;
+    });
 
-//       if (small) {
-//         return false;
-//       }
-//       return unimportant.indexOf(word) === -1;
-//     });
+    answer_split = answer_split.filter(function(word) {
+      var small = false;
+      _.each(unimportant, function(u_word) {
+        if (Levenshtein.get(word, u_word) === 1) {
+          small = true;
+        }
+      });
 
-//     answer_split = answer_split.filter(function(word) {
-//       var small = false;
-//       _.each(unimportant, function(u_word) {
-//         if (Levenshtein.get(word, u_word) === 1) {
-//           small = true;
-//         }
-//       });
+      if (small) {
+        return false;
+      }
+      return unimportant.indexOf(word) === -1;
+    });
 
-//       if (small) {
-//         return false;
-//       }
-//       return unimportant.indexOf(word) === -1;
-//     });
+    // Keep track of score
+    var score = 0;
+    _.each(given_split, function(word) {
 
-//     // Keep track of score
-//     var score = 0;
-//     _.each(given_split, function(word) {
+      var results = [];
+      _.each(answer_split, function(aword) {
+        results.push(Levenshtein.get(word, aword));
+      });
 
-//       var results = [];
-//       _.each(answer_split, function(aword) {
-//         results.push(Levenshtein.get(word, aword));
-//       });
+      score += Math.min.apply(null, results);
+    });
 
-//       score += Math.min.apply(null, results);
-//     });
-
-//     var lev_score = Levenshtein.get(given_split.join(" "), answer_split.join(" "));
-//     return lev_score + score;
-//   }
-// }
+    var lev_score = Levenshtein.get(given_split.join(" "), answer_split.join(" "));
+    return lev_score + score;
+  }
+}
 
 
 module.exports = Game;

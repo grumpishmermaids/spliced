@@ -112,15 +112,15 @@ module.exports = function (app, server) {
     client.on('guess', function (guess) {
       console.log("received 'guess' %s from socket %s", guess, client.id);
       var result = gameLogic.submitGuess(client.gameCode, client.id, guess);
-      // relay guess/player/bingo to gameCode room so host can display it
-      io.to(gameCode).emit('guess', {
-        guess: guess, 
-        player: result.player, 
-        bingo: result.bingo
-      });
+      
+      // relay result to gameCode room so host can display info
+      io.to(client.gameCode).emit('guess', result);
+
+      // also tell guesser if guess was correct
       if (result.bingo === true) {
         console.log("sending BINGO! to", client.id);
-        io.to(client.id).emit('bingo', null);  //TODO: send sth?
+        io.to(client.id).emit('bingo', result);
+
         // propagate 'end' event if gameOver b/c max correct guesses
         if (result.gameOver) {
           io.to(client.gameCode).emit('end', "Max correct guesses reached!");
