@@ -37,8 +37,7 @@ var startGame = function (gameCode) {
   return activeGames[gameCode].startGame();
 };
 
-var checkGuess = function (gameCode, socketId, guess) {
-
+var submitGuess = function (gameCode, socketId, guess) {
   return activeGames[gameCode].submitGuess(socketId, guess);
 };
 
