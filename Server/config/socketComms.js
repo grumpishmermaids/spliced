@@ -20,7 +20,6 @@ module.exports = function (app, server) {
     });
 
     client.on('gameInit', function() {
-      console.log("game %s: received 'gameInit'", client.gameCode);
       io.to(client.gameCode).emit('gameInfo', gameLogic.getGame(client.gameCode));
     });
 
@@ -93,10 +92,9 @@ module.exports = function (app, server) {
     client.on('drawing', function (data) {
       console.log("'drawing' ping from socket.id %s in room %s", client.id, client.gameCode);
       var game = gameLogic.getGame(client.gameCode);
-      console.log("GAME THING:", game);
-      console.log("GAME PLAYERSBYSOCKET THING: ", game.playersBySocket[client.id]);
       data.panelId = game.playersBySocket[client.id].panelId;
       console.log("data.panelId: ", data.panelId);
+      console.log("-------------------------------------------",client.gameCode);
       io.to(client.gameCode).emit('drawing', data);
     });
 
