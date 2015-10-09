@@ -18,7 +18,7 @@ angular.module('spliced.guesser', [])
   });
 
   Socket.on('end', function () {
-    $location.path('/endGame');
+    $location.path('/waitingscreen');
   });
 
 });
