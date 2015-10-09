@@ -80,7 +80,7 @@ module.exports = function (app, server) {
             console.log("game %s: sending 'countdown' %s", client.gameCode, countdown);
             io.to(client.gameCode).emit('countdown', countdown);
             if (countdown <= 0) {
-              io.to(client.gameCode).emit('end', null);  //TODO: endgame stuff
+              io.to(client.gameCode).emit('end', "Time up!");  //TODO: endgame stuff
               clearInterval(timerId);
             }
           }, 1000);
@@ -115,15 +115,20 @@ module.exports = function (app, server) {
 
     client.on('guess', function (guess) {
       console.log("received 'guess' %s from socket %s", guess, client.id);
-      console.log(client);
-      if (gameLogic.checkGuess(client.gameCode, client.id, guess)) {
-        // if right
-          // {gameEnd, playerName}
-        // everytime
-          // {username, score, guess}
+      var result = gameLogic.submitGuess(client.gameCode, client.id, guess);
+      // relay guess/player/bingo to gameCode room so host can display it
+      io.to(gameCode).emit('guess', {
+        guess: guess, 
+        player: result.player, 
+        bingo: result.bingo
+      });
+      if (result.bingo === true) {
         console.log("sending BINGO! to", client.id);
         io.to(client.id).emit('bingo', null);  //TODO: send sth?
-
+        // propagate 'end' event if gameOver b/c max correct guesses
+        if (result.gameOver) {
+          io.to(client.gameCode).emit('end', "Max correct guesses reached!");
+        }
       }
     });
 
@@ -135,3 +140,4 @@ module.exports = function (app, server) {
 
 
 };
+
