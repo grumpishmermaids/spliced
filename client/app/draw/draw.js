@@ -35,8 +35,8 @@ angular.module('spliced.draw', [])
   $scope.sendDrawing = function () {
     var dataURL = document.getElementById("pwCanvasMain").toDataURL();
     Socket.emit('drawing', {
-      "x": $scope.data.userId % 2,
-      "y": $scope.data.userId > 1 ? 1 : 0,
+      // "x": $scope.data.userId % 2,
+      // "y": $scope.data.userId > 1 ? 1 : 0,
       "dataURL": dataURL
     });
   };
@@ -44,10 +44,11 @@ angular.module('spliced.draw', [])
   //sends the temp drawing to the server (enables live streaming);
   $scope.sendTmpDrawing = function () {
     var dataURL = document.getElementById("pwCanvasTmp").toDataURL();
+    console.log(1);
     console.log('called');
     Socket.emit('drawing', {
-      "x": $scope.data.userId % 2,
-      "y": $scope.data.userId > 1 ? 1 : 0,
+      // "x": $scope.data.userId % 2,
+      // "y": $scope.data.userId > 1 ? 1 : 0,
       "dataURL": dataURL
     });
   };
