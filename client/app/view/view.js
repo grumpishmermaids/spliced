@@ -24,8 +24,9 @@ angular.module('spliced.view', [])
     }
   });
 
-  Socket.on('playerJoined', function(playerData){
-    $scope.game.players.push(playersData);
+  Socket.on('playerJoined', function(playerData) {
+    console.log("-------------------------------------------",playerData);
+    $scope.game.players.push(playerData);
     //not sure we need this, but will force an update of dom...
     // $scope.$digest();
   });
