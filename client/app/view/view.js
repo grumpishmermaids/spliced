@@ -16,6 +16,14 @@ angular.module('spliced.view', [])
   $scope.init = function() {
     Socket.emit('gameInit');
   };
+
+  // Saving image
+  $scope.save = function() {
+    var link = document.createElement('a');
+    link.download = scope.game.prompt + ".png";
+    link.href = scope.view.ctx.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    link.click();
+  };
   
   Socket.on('gameInfo', function(gameInfo){
     console.log(gameInfo);
