@@ -12,9 +12,20 @@
       </div>
 
       <div class='player-list'>
-        <ul>
-          <li ng-repeat="p in game.players | orderBy: p.role"><span ng-class="p.role">{{p}}</span></li>
-        </ul>
+        <table id="playersList">
+          <thead>
+            <th>Score</th>
+            <th>Username</th>
+            <th>Last Guess</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="p in game.players | orderBy: p.score">
+              <td>{{p.score}}</td>
+              <td ng-class="p.role">{{p.playerName}}</td>
+              <td ng-style="p.guessStyle">{{p.lastGuess}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
   </div>
     <a ng-click="save()" class="button minor">Save Image</a>
