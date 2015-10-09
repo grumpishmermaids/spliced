@@ -5,10 +5,12 @@ angular.module('spliced.draw', [])
   $scope.data = {};
   $scope.data.drawing = {};
   $scope.prompt = "";
+  $scope.panelId = "";
 
   Socket.emit('tellMeASecret', "iAmStupid");
-  Socket.on('barryNeverTells', function (prompt) {
-    $scope.prompt = prompt;
+  Socket.on('barryNeverTells', function (secrets) {
+    $scope.prompt = secrets.prompt;
+    $scope.panelId = secrets.panelId;
   });
 
   //for the undo button (pw-canvas thing)

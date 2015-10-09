@@ -1,8 +1,8 @@
 <div id='draw'> 
   <div class="game-info">
-    <span class="prompt">Horse</span>
-    <span class="tile-label">A1</span>
-    <span class="countdown">0:10</span>
+    <span class="prompt">{{prompt}}</span>
+    <span class="tile-label">You are Panel {{panelId}}</span>
+    <!-- <span class="countdown">0:10</span> -->
 </div>
   <div pw-canvas options="canvas" ng-model="data.drawing" class="view-canvas" version="data.drawing.version"></div>
   <div pw-color-selector="canvas.pallette" color="canvas.color"></div>

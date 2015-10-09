@@ -49,7 +49,7 @@ Game.prototype.startGame = function () {
 };
 
 Game.prototype.checkGuess = function (player, guess) {
-  if (guess === prompt) {
+  if (guess === this.prompt) {
     return true;
     //DO SOMETHING TO GIVE PLAYER POINTS?
   }
