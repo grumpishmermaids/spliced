@@ -4,6 +4,12 @@ angular.module('spliced.draw', [])
   // drawing info will go here.
   $scope.data = {};
   $scope.data.drawing = {};
+  $scope.prompt = "";
+
+  Socket.emit('tellMeASecret', "iAmStupid");
+  Socket.on('barryNeverTells', function (prompt) {
+    $scope.prompt = prompt;
+  });
 
   //for the undo button (pw-canvas thing)
   $scope.data.drawing.version = 0;
