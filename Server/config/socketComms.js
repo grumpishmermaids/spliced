@@ -114,6 +114,8 @@ module.exports = function (app, server) {
       if (gameLogic.checkGuess(client.gameCode, client.id, guess)) {
         console.log("sending BINGO! to", client.id);
         io.to(client.id).emit('bingo', null);  //TODO: send sth?
+      } else {
+        io.to(client.id).emit('antibingo',null);
       }
     });
 

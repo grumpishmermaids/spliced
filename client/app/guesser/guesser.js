@@ -1,6 +1,7 @@
 angular.module('spliced.guesser', [])
 
 .controller('GuesserController', function ($scope, $location, Socket) {
+  $scope.guessStatus = null;
 
   $scope.sendGuess = function(guess) {
     // Send guess
@@ -9,11 +10,13 @@ angular.module('spliced.guesser', [])
 
   // Receive response
   Socket.on("bingo", function(data) {
+    guessStatus = 'bingo';
     console.log("Bingo, motherfuckers!");
   });
 
   Socket.on("antibingo", function(data) {
     $scope.guess = null;
+    $scope.guessStatus = 'antibingo';
     console.log("Wrong, jackass!");
   });
 
