@@ -15,6 +15,7 @@ module.exports = function (app, server) {
       console.log("game %s: received 'createGame'", client.gameCode);
       var game = gameLogic.createGame(gameOptions);     // instantiate a game w/ game options
       client.gameCode = game.code;    // save gameCode as attribute of client 
+      client.playerName = "__VIEWER__";
       client.join(client.gameCode);   // connect client (game host) to 'room' named for their gameCode
       io.to(client.gameCode).emit('gameCreated', client.gameCode);   // send to everyone in game (only host at this point) newly created game info
     });
@@ -30,17 +31,20 @@ module.exports = function (app, server) {
       
       // attempt to add player to game (returns null if game does not exist)
       var game = gameLogic.addPlayerToGame(joinRequest.gameCode, {playerName: joinRequest.playerName, socketId: client.id});
+      console.log(game);
 
       if (!game) {
         io.to(client.id).emit('joinFail', joinRequest.gameCode);     // send player attempting to join back a fail message
       } else {
         console.log('Game %s exists.', joinRequest.gameCode);
         client.gameCode = joinRequest.gameCode;
+        client.playerName = joinRequest.playerName;
         client.join(client.gameCode); // connect client to socket room named their gameCode
         console.log('game %s: Connected %s to room:', client.gameCode, joinRequest.playerName);
 
         io.to(client.id).emit('joinSuccess', client.gameCode);  // send new player success ping
-        io.to(client.gameCode).emit('playerJoined', joinRequest.playerName);  // send "playerJoined" to everyone in game
+        console.log(joinRequest);
+        io.to(client.gameCode).emit('playerJoined', game.players);  // send "playerJoined" to everyone in game
       }
     });
 
@@ -63,7 +67,7 @@ module.exports = function (app, server) {
           io.to(game.players[i].socketId).emit('gameStart', {
             role: game.players[i].role,
             panelId: game.players[i].panelId,
-            prompt: (game.players[i].role === "drawer") ? game.prompt : ""
+            prompt: game.prompt
           });
         }
         
@@ -111,9 +115,15 @@ module.exports = function (app, server) {
 
     client.on('guess', function (guess) {
       console.log("received 'guess' %s from socket %s", guess, client.id);
+      console.log(client);
       if (gameLogic.checkGuess(client.gameCode, client.id, guess)) {
+        // if right
+          // {gameEnd, playerName}
+        // everytime
+          // {username, score, guess}
         console.log("sending BINGO! to", client.id);
         io.to(client.id).emit('bingo', null);  //TODO: send sth?
+
       }
     });
 

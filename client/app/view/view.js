@@ -37,11 +37,25 @@ angular.module('spliced.view', [])
   });
 
   Socket.on('playerJoined', function(playerData) {
-    if($scope.game.players.indexOf(playerData) === -1){
-      $scope.game.players.push(playerData);
-    }
+    console.log('playerJoined');
+
+    // var dups =_.filter($scope.game.players, function(obj){
+    //   return obj.playerName === playerData.playerName;
+    // })
+
+    // if(dups.length === 0){
+    //   $scope.game.players.push(playerData);
+    // }
+
+    $scope.game.players = playerData;
   });
 
+  Socket.on('gameStart', function(gameData) {
+    $scope.game.players = gameData.players;
+    // _.each(gameData.players, function(player) {
+    //   _.extend($scope.game.players[player.username], player);
+    // });
+  });
 
   Socket.on('countdown', function(count) {
     console.log(count);
