@@ -12,6 +12,7 @@ module.exports = function (app, server) {
 
     // listen for host creating game
     client.on('createGame', function (gameOptions) {
+      console.log("game %s: received 'createGame'", client.gameCode);
       var game = gameLogic.createGame(gameOptions);     // instantiate a game w/ game options
       client.gameCode = game.code;    // save gameCode as attribute of client 
       client.join(client.gameCode);   // connect client (game host) to 'room' named for their gameCode
@@ -19,7 +20,7 @@ module.exports = function (app, server) {
     });
 
     client.on('gameInit', function() {
-      console.log(client.gameCode);
+      console.log("game %s: received 'gameInit'", client.gameCode);
       io.to(client.gameCode).emit('gameInfo', gameLogic.getGame(client.gameCode));
     });
 
@@ -37,7 +38,7 @@ module.exports = function (app, server) {
         console.log('Game %s exists.', joinRequest.gameCode);
         client.gameCode = joinRequest.gameCode;
         client.join(client.gameCode); // connect client to socket room named their gameCode
-        console.log('Connected client to room:', client.gameCode);
+        console.log('game %s: Connected %s to room:', client.gameCode, joinRequest.playerName);
 
         io.to(client.id).emit('joinSuccess', client.gameCode);  // send new player success ping
         io.to(client.gameCode).emit('playerJoined', joinRequest.playerName);  // send "playerJoined" to everyone in game
@@ -45,24 +46,47 @@ module.exports = function (app, server) {
     });
 
     client.on('gameStart', function () {
-      // do game start logic (choose game roles, etc.)
-      var game = gameLogic.startGame(client.gameCode);
+      console.log("game %s: received 'gameStart' signal", client.gameCode);
+      var game = gameLogic.getGame(client.gameCode);
 
-      // propagate start event to all players in game
-      io.to(client.gameCode).emit('gameStart', game);
+      // if players joined >= panels, we can start game
+      if (game.nextAvailablePlayerId >= game.numTiles) {
+        // do game start logic (choose game roles, etc.)
+        game = gameLogic.startGame(client.gameCode);
 
-      // initiate game timer as well
-      var countdown = gameLogic.getTimeLimit(client.gameCode);
-      if (countdown) {
-        var timerId = setInterval(function () {  
-          countdown--;
-          io.to(client.gameCode).emit('countdown', countdown);
-          if (countdown <= 0) {
-            io.to(client.gameCode).emit('end', null);  //TODO: endgame stuff
-            clearInterval(timerId);
-          }
-        }, 1000);
+        // send whole game object back to host
+        io.to(client.id).emit('gameStart', game);
+
+        // propagate start event to all players in game
+        // individualized to their role (& panelid if drawer)
+        for (var i=0; i<game.nextAvailablePlayerId; i++) {
+          console.log("game %s: sending 'gameStart' to player %s with role %s and panel %s", client.gameCode, client.id, game.players[i].role, game.players[i].panelId);
+          io.to(game.players[i].socketId).emit('gameStart', {
+            role: game.players[i].role,
+            panelId: game.players[i].panelId
+          });
+        }
+        
+        // initiate game timer as well
+        var countdown = gameLogic.getTimeLimit(client.gameCode);
+        console.log("Initiating countdown for %d", client.gameCode);
+        if (countdown) {
+          var timerId = setInterval(function () {  
+            countdown--;
+            console.log("game %s: sending 'countdown' %s", client.gameCode, countdown);
+            io.to(client.gameCode).emit('countdown', countdown);
+            if (countdown <= 0) {
+              io.to(client.gameCode).emit('end', null);  //TODO: endgame stuff
+              clearInterval(timerId);
+            }
+          }, 1000);
+        }
+      } else {
+        //if insufficent players, send back fail message
+        console.log("game %s: sending 'insufficentPlayers'. need %s more.", client.gameCode, game.numTiles - game.nextAvailablePlayerId);
+        io.to(client.id).emit('insufficientPlayers',  game.numTiles - game.nextAvailablePlayerId);
       }
+
     });
 
 
@@ -71,14 +95,16 @@ module.exports = function (app, server) {
       var game = gameLogic.getGame(client.gameCode);
       console.log("GAME THING:", game);
       console.log("GAME PLAYERSBYSOCKET THING: ", game.playersBySocket[client.id]);
-      data.panelID = game.playersBySocket[client.id].panel;
-      console.log("data.panelID: ", data.panelID);
+      data.panelId = game.playersBySocket[client.id].panelId;
+      console.log("data.panelId: ", data.panelId);
       io.to(client.gameCode).emit('drawing', data);
     });
 
 
     client.on('guess', function (guess) {
+      console.log("received 'guess' %s from socket %s", guess, client.id);
       if (gameLogic.checkGuess(client.gameCode, client.id, guess)) {
+        console.log("sending BINGO! to", client.id);
         io.to(client.id).emit('bingo', null);  //TODO: send sth?
       }
     });

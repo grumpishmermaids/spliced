@@ -41,7 +41,7 @@ Game.prototype.startGame = function () {
     newVictimId = Math.floor(Math.random()*this.nextAvailablePlayerId);
     if (this.players[newVictimId].role !== "drawer") {
       this.players[newVictimId].role = "drawer";
-      this.players[newVictimId].panel = drawerCount;
+      this.players[newVictimId].panelId = drawerCount;
       drawerCount++;
     }
   }
