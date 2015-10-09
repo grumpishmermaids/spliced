@@ -37,8 +37,9 @@ var startGame = function (gameCode) {
   return activeGames[gameCode].startGame();
 };
 
-var checkGuess = function (gameCode, player, guess) {
-  return activeGames[gameCode].checkGuess(player, guess);
+var checkGuess = function (gameCode, socketId, guess) {
+
+  return activeGames[gameCode].submitGuess(socketId, guess);
 };
 
 
@@ -63,8 +64,6 @@ var createUniqueGameCode = function () {  //TODO: guarantee unique?
   }
   return null;
 };
-
-
 
 
 
