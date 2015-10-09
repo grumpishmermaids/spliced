@@ -20,6 +20,10 @@ angular.module('spliced.view', [])
     // $scope.$digest();
   });
 
+  $scope.gameStart = function() {
+    Socket.emit('gameStart');
+  };
+
   $scope.game = {
     prompt : null,
     timer : null,
@@ -84,8 +88,8 @@ angular.module('spliced.view', [])
     };
 
     View.prototype.drawTile = function(tile) {
-      var x = tile.x;
-      var y = tile.y;
+      var x = tile.panelID % 2;
+      var y = tile.panelID > 1 ? 1 : 0;
       var img = new Image();
       img.src = tile.dataURL;
 

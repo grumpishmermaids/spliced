@@ -69,6 +69,8 @@ var createUniqueGameCode = function () {  //TODO: guarantee unique?
 
 
 module.exports = {
+  getGame: getGame,
+  startGame: startGame,
   createGame: createGame,
   createUniqueGameCode: createUniqueGameCode,
   addPlayerToGame: addPlayerToGame,

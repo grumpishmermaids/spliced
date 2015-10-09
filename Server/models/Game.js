@@ -12,7 +12,7 @@ var Game = function (gameCode, options) {
   // this.maxPlayers = options.maxPlayers || null;
   this.nextAvailablePlayerId = 0;
   this.playersBySocket = {};
-  this.playersById = [];
+  this.players = [];
 };
 
 Game.prototype.constructor = Game;
@@ -25,7 +25,7 @@ Game.prototype.addPlayer = function (playerOptions) {
   // use their socketId as identifying key in player hash (for easy lookup)
   var player = new Player(playerOptions);
   this.playersBySocket[player.socketId] = player;
-  this.playersById[player.playerId] = player;
+  this.players[player.playerId] = player;
 };
 
 Game.prototype.startGame = function () {
@@ -33,15 +33,15 @@ Game.prototype.startGame = function () {
 
   // assign (numTiles) # of drawers
   for (var i=0; i<this.nextAvailablePlayerId; i++) {  //reset everyone to guesser
-    this.playersById[i].role = "guesser";
+    this.players[i].role = "guesser";
   }
   var drawerCount = 0;
   var newVictimId;
   while (drawerCount < this.numTiles) {
     newVictimId = Math.floor(Math.random()*this.nextAvailablePlayerId);
-    if (this.playersById[newVictimId].role !== "drawer") {
-      this.playersById[newVictimId].role = "drawer";
-      this.playersById[newVictimId].panel = drawerCount;
+    if (this.players[newVictimId].role !== "drawer") {
+      this.players[newVictimId].role = "drawer";
+      this.players[newVictimId].panel = drawerCount;
       drawerCount++;
     }
   }

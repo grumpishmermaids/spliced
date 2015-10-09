@@ -3,6 +3,7 @@ angular.module('spliced', [
   'spliced.home',
   'spliced.draw',
   'spliced.ready',
+  'spliced.newPlayer',
   'spliced.view',
   'spliced.guesser',
   'spliced.waitingScreen',

@@ -6,7 +6,9 @@ angular.module('spliced.newPlayer', [])
     Socket.emit('joinGame', {gameCode: gameCode.toLowerCase(), playerName: playerName});
   };
 
-  Socket.on('joinSuccess', function() { $location.path('/playerwaitingscreen'); });
-  Socket.on('joinFail', console.log("-------------------------------------------","Join Fail"));
+  Socket.on('joinSuccess', function() { $location.path('/waitingscreen'); });
+  Socket.on('joinFail', function() {
+    console.log("-------------------------------------------","Join Fail")
+  });
 
 });

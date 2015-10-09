@@ -19,6 +19,7 @@ module.exports = function (app, server) {
     });
 
     client.on('gameInit', function() {
+      console.log(client.gameCode);
       io.to(client.gameCode).emit('gameInfo', gameLogic.getGame(client.gameCode));
     });
 
@@ -66,9 +67,12 @@ module.exports = function (app, server) {
 
 
     client.on('drawing', function (data) {
-      console.log("'drawing' ping from socket.id %s in room %s", client.id, gameCode);
-      console.log('drawer client is in socket.rooms', client.rooms);
-      console.dir(client.gameCode);
+      console.log("'drawing' ping from socket.id %s in room %s", client.id, client.gameCode);
+      var game = gameLogic.getGame(client.gameCode);
+      console.log("GAME THING:", game);
+      console.log("GAME PLAYERSBYSOCKET THING: ", game.playersBySocket[client.id]);
+      data.panelID = game.playersBySocket[client.id].panel;
+      console.log("data.panelID: ", data.panelID);
       io.to(client.gameCode).emit('drawing', data);
     });
 
