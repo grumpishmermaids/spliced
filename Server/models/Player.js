@@ -1,6 +1,6 @@
 var Player = function (playerOptions) {
   this.socketId = playerOptions.socketId;
-  this.playerId = 0;
+  this.playerId = playerOptions.playerId;
   this.playerName = playerOptions.playerName || "anonymous";
   this.panelId = null;
   this.role = "guesser";
