@@ -2,7 +2,7 @@ var Player = function (playerOptions) {
   this.socketId = playerOptions.socketId;
   this.playerId = 0;
   this.playerName = playerOptions.playerName || "anonymous";
-  this.panel = null;
+  this.panelId = null;
   this.role = "guesser";
   this.score = 0;
 };
