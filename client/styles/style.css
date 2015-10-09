@@ -133,6 +133,13 @@ input {
   background-color: #562DF1 
 }
 
+.antibingo {
+  background-color: #ff69b4;
+}
+
+.bingo {
+  background-color: green;
+}
 
 /*drawing tools styles*/
 .pwColorSelector{
