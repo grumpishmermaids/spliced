@@ -1,8 +1,9 @@
-<div id='view' ng-controller='ViewController'> 
+<div id='view' ng-controller='ViewController' ng-init="init()"> 
   <div class="drawing-area">
     <div class="game-info">
-      <span class="countdown">{{game.timer}}</span>
+      <span class="countdown">{{game.timeLimit}}</span>
       <span>{{game.prompt}}</span>
+      <span>{{game.code}}</span>
     </div>
     
     <div class='game-container'>
@@ -17,6 +18,7 @@
       </div>
   </div>
     <a ng-click="save()" class="button minor">Save Image</a>
+    <a ng-click="gameStart()" class="button major">Start Game</a>
   </div>
   
 </div>
