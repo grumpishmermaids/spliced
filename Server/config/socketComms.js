@@ -129,6 +129,8 @@ module.exports = function (app, server) {
         if (result.gameOver) {
           io.to(client.gameCode).emit('end', "Max correct guesses reached!");
         }
+      } else {
+        io.to(client.id).emit('antibingo',null);
       }
     });
 
