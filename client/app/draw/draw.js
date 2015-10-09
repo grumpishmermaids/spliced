@@ -52,6 +52,10 @@ angular.module('spliced.draw', [])
       "dataURL": dataURL
     });
   };
+
+  Socket.on('end', function () {
+    $location.path('/endGame');
+  });
 });
 
 
