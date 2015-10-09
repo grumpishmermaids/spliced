@@ -11,7 +11,7 @@ var Player = require('../models/Player.js');
 var activeGames = {};
 
 var getGame = function(code) {
-  return activeGames[code];
+  return activeGamses[code];
 };
 
 var createGame = function (options) {
@@ -69,8 +69,6 @@ var createUniqueGameCode = function () {  //TODO: guarantee unique?
 
 
 module.exports = {
-  getGame: getGame,
-  startGame: startGame,
   createGame: createGame,
   createUniqueGameCode: createUniqueGameCode,
   addPlayerToGame: addPlayerToGame,
