@@ -62,7 +62,8 @@ module.exports = function (app, server) {
           console.log("game %s: sending 'gameStart' to player %s with role %s and panel %s", client.gameCode, client.id, game.players[i].role, game.players[i].panelId);
           io.to(game.players[i].socketId).emit('gameStart', {
             role: game.players[i].role,
-            panelId: game.players[i].panelId
+            panelId: game.players[i].panelId,
+            prompt: (game.players[i].role === "drawer") ? game.prompt : ""
           });
         }
         
@@ -88,6 +89,12 @@ module.exports = function (app, server) {
 
     });
 
+    client.on('tellMeASecret', function (whocares) {
+      var game = gameLogic.getGame(client.gameCode);
+      if (game.playersBySocket[client.id].role === "drawer") {
+        io.to(client.id).emit('barryNeverTells', game.prompt);
+      }
+    });
 
     client.on('drawing', function (data) {
       console.log("'drawing' ping from socket.id %s in room %s", client.id, client.gameCode);

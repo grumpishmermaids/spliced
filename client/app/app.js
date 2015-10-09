@@ -7,6 +7,7 @@ angular.module('spliced', [
   'spliced.view',
   'spliced.guesser',
   'spliced.waitingScreen',
+  'spliced.endGame',
   'ngRoute',
   'ngCookies',
   'pw.canvas-painter'
@@ -43,6 +44,10 @@ angular.module('spliced', [
     .when('/guesser', {
       templateUrl: 'app/guesser/guesser.html',
       controller: 'GuesserController'
+    })
+    .when('/endGame', {
+      templateUrl: 'app/endGame/endGame.html',
+      controller: 'endGameController'
     })
     .otherwise({
       redirectTo: '/home'
