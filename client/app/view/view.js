@@ -7,7 +7,7 @@ angular.module('spliced.view', [])
     nextAvailablePlayerId : null,
     numTiles : null,
     prompt : null,
-    timeLimit : null,
+    timeLimit : '',
     players : [],
     version : 0 // for undo...
   };
@@ -15,6 +15,10 @@ angular.module('spliced.view', [])
   // drawing info will go here.
   $scope.init = function() {
     Socket.emit('gameInit');
+  };
+
+  $scope.gameStart = function() {
+    Socket.emit('gameStart');
   };
 
   // Saving image
@@ -33,16 +37,16 @@ angular.module('spliced.view', [])
   });
 
   Socket.on('playerJoined', function(playerData) {
-    console.log("-------------------------------------------",playerData);
     if($scope.game.players.indexOf(playerData) === -1){
       $scope.game.players.push(playerData);
     }
   });
 
-  $scope.gameStart = function() {
-    console.log("-------------------------------------------","Game Started!");
-    Socket.emit('gameStart');
-  };
+
+  Socket.on('countdown', function(count) {
+    console.log(count);
+    $scope.game.timeLimit = count;
+  });
 
 
   //make scope accessable to window for debugging
@@ -101,8 +105,8 @@ angular.module('spliced.view', [])
     };
 
     View.prototype.drawTile = function(tile) {
-      var x = tile.panelID % 2;
-      var y = tile.panelID > 1 ? 1 : 0;
+      var y = tile.panelId % 2;
+      var x = tile.panelId > 1 ? 1 : 0;
       var img = new Image();
       img.src = tile.dataURL;
 
