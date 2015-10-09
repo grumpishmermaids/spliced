@@ -25,7 +25,7 @@ angular.module('spliced', [
       templateUrl : 'app/createGame/createGame.html',
       controller  : 'CreateGameController' 
     })
-    .when('/newplayer', {
+    .when('/newPlayer', {
       templateUrl : 'app/newPlayer/newPlayer.html',
       controller  : 'NewPlayerController'
     })

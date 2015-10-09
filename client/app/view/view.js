@@ -16,6 +16,14 @@ angular.module('spliced.view', [])
   $scope.init = function() {
     Socket.emit('gameInit');
   };
+
+  // Saving image
+  $scope.save = function() {
+    var link = document.createElement('a');
+    link.download = scope.game.prompt + ".png";
+    link.href = scope.view.ctx.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    link.click();
+  };
   
   Socket.on('gameInfo', function(gameInfo){
     console.log(gameInfo);
@@ -24,10 +32,11 @@ angular.module('spliced.view', [])
     }
   });
 
-  Socket.on('newPlayer', function(playerData){
-    players.push(playersData);
-    //not sure we need this, but will force an update of dom...
-    // $scope.$digest();
+  Socket.on('playerJoined', function(playerData) {
+    console.log("-------------------------------------------",playerData);
+    if($scope.game.players.indexOf(playerData) === -1){
+      $scope.game.players.push(playerData);
+    }
   });
 
   $scope.gameStart = function() {
