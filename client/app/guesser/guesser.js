@@ -1,6 +1,6 @@
 angular.module('spliced.guesser', [])
 
-.controller('GuesserController', function ($scope, Socket) {
+.controller('GuesserController', function ($scope, $location, Socket) {
 
   $scope.sendGuess = function(guess) {
     // Send guess
@@ -20,5 +20,5 @@ angular.module('spliced.guesser', [])
   Socket.on('end', function () {
     $location.path('/endGame');
   });
-  
+
 });

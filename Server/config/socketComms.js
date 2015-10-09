@@ -92,7 +92,10 @@ module.exports = function (app, server) {
     client.on('tellMeASecret', function (whocares) {
       var game = gameLogic.getGame(client.gameCode);
       if (game.playersBySocket[client.id].role === "drawer") {
-        io.to(client.id).emit('barryNeverTells', game.prompt);
+        io.to(client.id).emit('barryNeverTells', {
+          prompt: game.prompt,
+          panelId: game.playersBySocket[client.id].panelId
+        });
       }
     });
 
