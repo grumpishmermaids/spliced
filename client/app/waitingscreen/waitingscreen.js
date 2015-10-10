@@ -1,13 +1,16 @@
 angular.module('spliced.waitingScreen', [])
 
 .controller('WaitingScreenController', function ($scope, $location, Socket) {
-  Socket.emit('waiting');
+  
+  // setTimeout(function() {
+    Socket.emit('waiting');
+  // }, 1000);
 
-  Socket.on('elevatorMusic', function (game, player) {
-    $scope.playerName = player.playerName;
-    $scope.score = player.score;
-    $scope.gameCode = game.code;
-    $scope.gameName = game.name;
+  Socket.on('elevatorMusic', function (info) {
+    $scope.playerName = info.player.playerName;
+    $scope.score = info.player.score;
+    $scope.gameCode = info.game.code;
+    $scope.gameName = info.game.name;
   });
 
 

@@ -40,7 +40,7 @@ module.exports = function (app, server) {
         client.gameCode = joinRequest.gameCode;
         client.playerName = joinRequest.playerName;
         client.join(client.gameCode); // connect client to socket room named their gameCode
-        console.log('game %s: Connected %s to room:', client.gameCode, joinRequest.playerName);
+        console.log('game %s: Connected %s to room:', client.gameCode, joinRequest.playerName, client.gameCode);
 
         io.to(client.id).emit('joinSuccess', client.gameCode);  // send new player success ping
         console.log(joinRequest);
@@ -137,9 +137,10 @@ module.exports = function (app, server) {
 
 
     client.on('waiting', function () {
+      console.log("waiting player with gameCode %s and socket %s", client.gameCode, client.id);
       var game = gameLogic.getGame(client.gameCode);
-      var player = game.playersBySocket(client.id);
-      io.to(client.id).emit('elevatorMusic', game, player);
+      var player = game.playersBySocket[client.id];
+      io.to(client.id).emit('elevatorMusic', {game:game, player:player});
     });
 
 
