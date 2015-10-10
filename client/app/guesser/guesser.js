@@ -10,14 +10,14 @@ angular.module('spliced.guesser', [])
 
   // Receive response
   Socket.on("bingo", function(data) {
-    guessStatus = 'bingo';
-    console.log("Bingo, motherfuckers!");
+    $scope.guessStatus = 'bingo';
+    // console.log("Bingo, motherfuckers!");
   });
 
   Socket.on("antibingo", function(data) {
     $scope.guess = null;
     $scope.guessStatus = 'antibingo';
-    console.log("Wrong, jackass!");
+    // console.log("Wrong, jackass!");
   });
 
   Socket.on('end', function () {
