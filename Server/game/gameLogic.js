@@ -70,7 +70,7 @@ module.exports = {
   getGame : getGame,
   startGame : startGame,
   createGame: createGame,
-  checkGuess: checkGuess,
+  submitGuess: submitGuess,
   createUniqueGameCode: createUniqueGameCode,
   addPlayerToGame: addPlayerToGame,
   getTimeLimit: getTimeLimit

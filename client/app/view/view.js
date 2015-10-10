@@ -36,6 +36,11 @@ angular.module('spliced.view', [])
     }
   });
 
+  Socket.on('end', function(data) {
+    console.log('END!');
+    $scope.game.timeLimit = "Game Over";
+  });
+
   Socket.on('playerJoined', function(playerData) {
     console.log('playerJoined');
 
@@ -50,6 +55,20 @@ angular.module('spliced.view', [])
     $scope.game.players = playerData;
   });
 
+  Socket.on('guess', function(guess) {
+    _.each($scope.game.players, function(player) {
+      if (guess.player.playerName === player.playerName) {
+        if (guess.bingo) {
+          player.lastGuess = "winner";
+          player.role = "winner";
+          player.score = guess.player.score;
+        } else {
+          player.lastGuess = guess.guess;
+        }
+      }
+    });
+  });
+
   Socket.on('gameStart', function(gameData) {
     $scope.game.players = gameData.players;
     // _.each(gameData.players, function(player) {
@@ -58,7 +77,6 @@ angular.module('spliced.view', [])
   });
 
   Socket.on('countdown', function(count) {
-    console.log(count);
     $scope.game.timeLimit = count;
   });
 

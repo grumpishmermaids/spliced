@@ -75,7 +75,7 @@ module.exports = function (app, server) {
         var countdown = gameLogic.getTimeLimit(client.gameCode);
         console.log("Initiating countdown for %d", client.gameCode);
         if (countdown) {
-          var timerId = setInterval(function () {  
+          timerId = setInterval(function () {
             countdown--;
             console.log("game %s: sending 'countdown' %s", client.gameCode, countdown);
             io.to(client.gameCode).emit('countdown', countdown);
@@ -127,6 +127,7 @@ module.exports = function (app, server) {
 
         // propagate 'end' event if gameOver b/c max correct guesses
         if (result.gameOver) {
+          clearInterval(timerId);
           io.to(client.gameCode).emit('end', "Max correct guesses reached!");
         }
       } else {
