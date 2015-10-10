@@ -135,6 +135,13 @@ module.exports = function (app, server) {
     });
 
 
+    client.on('waiting', function () {
+      var game = gameLogic.getGame(client.gameCode);
+      var player = game.playersBySocket(client.id);
+      io.to(client.id).emit('elevatorMusic', game, player);
+    });
+
+
     // client.on('disconnect')      //TODO: implement disconnect to remove user if they drop
 
 

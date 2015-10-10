@@ -62,7 +62,7 @@ angular.module('spliced.draw', [])
   };
 
   Socket.on('end', function () {
-    $location.path('/endGame');
+    $location.path('/waitingscreen');
   });
 });
 
