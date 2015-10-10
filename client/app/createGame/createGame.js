@@ -4,7 +4,7 @@ angular.module('spliced.ready', [])
 
   $scope.sendGameData = function(gameName, numOfDrawers) {
     //Socket.emit('createGame', {name:"booyah", numTiles:8, timeLimit: 30});
-    Socket.emit("createGame", {name: gameName, numTiles: +numOfDrawers, timeLimit: 30});
+    Socket.emit("createGame", {name: gameName, numTiles: +numOfDrawers, timeLimit: 12330});
     $location.path("/hostview");
   };
 

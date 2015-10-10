@@ -81,6 +81,9 @@ Game.prototype.submitGuess = function (socketId, guess) {
       }
     });
     this.currentRound.correctGuesses++;
+    if (this.currentRound.correctGuesses === this.numTiles) {
+      result.gameOver = true;
+    }
   }
   return result;
 };
