@@ -3,6 +3,6 @@
     <h2>Guess</h2>
     <input type="text" ng-model="guess" autofocus>
     <br>
-    <a class="button" ng-click="sendGuess(guess)">Send Guess</a>
+    <a class="button" ng-hide="guessStatus === true" ng-disabled="guessStatus" ng-click="sendGuess(guess)">Send Guess</a>
   </div>
 </div>
