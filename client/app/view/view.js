@@ -19,6 +19,7 @@ angular.module('spliced.view', [])
 
   $scope.gameStart = function() {
     Socket.emit('gameStart');
+    $scope.view.clearCanvas();
   };
 
   // Saving image
@@ -57,6 +58,7 @@ angular.module('spliced.view', [])
   Socket.on('end', function(data) {
     console.log('END!');
     $scope.game.timeLimit = "Game Over";
+
   });
 
   Socket.on('playerJoined', function(playerData) {
@@ -123,6 +125,10 @@ angular.module('spliced.view', [])
       }
 
       this.drawSplits();
+    };
+
+    View.prototype.clearCanvas = function() {
+      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     };
 
     View.prototype.setIntervals = function() {
