@@ -28,6 +28,24 @@ angular.module('spliced.view', [])
     link.href = scope.view.ctx.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     link.click();
   };
+
+  $scope.computeRGB = function(current, max, min) {
+    current = Number(current);
+    min = min || 0;
+    current -= min;
+    max -= min;
+
+    var percent = Math.round((current/max)*100);
+    if (percent < 0) {
+      percent = 0;
+    }
+
+    var red = Math.round(percent*255)/100;
+    var green = 255 - red;
+    var percent;
+
+    return {color: "rgb(" + Math.round(red) + ", " + Math.round(green) + ", 0)"};
+  };
   
   Socket.on('gameInfo', function(gameInfo){
     console.log(gameInfo);
@@ -56,14 +74,17 @@ angular.module('spliced.view', [])
   });
 
   Socket.on('guess', function(guess) {
+    console.log(guess);
     _.each($scope.game.players, function(player) {
       if (guess.player.playerName === player.playerName) {
         if (guess.bingo) {
           player.lastGuess = "winner";
           player.role = "winner";
           player.score = guess.player.score;
+          player.guessStyle = $scope.computeRGB(0, 20, 0);
         } else {
           player.lastGuess = guess.guess;
+          player.guessStyle = $scope.computeRGB(guess.levScore, 20, 0);
         }
       }
     });
