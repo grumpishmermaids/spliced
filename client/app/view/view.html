@@ -22,7 +22,7 @@
             <tr ng-repeat="p in game.players | orderBy: p.score">
               <td>{{p.score}}</td>
               <td ng-class="p.role">{{p.playerName}}</td>
-              <td ng-style="p.guessStyle">{{p.lastGuess}}</td>
+              <td><span ng-style="p.guessStyle">{{p.lastGuess}}</span></td>
             </tr>
           </tbody>
         </table>
