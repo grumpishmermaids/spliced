@@ -80,7 +80,7 @@ module.exports = function (app, server) {
             console.log("game %s: sending 'countdown' %s", client.gameCode, countdown);
             io.to(client.gameCode).emit('countdown', countdown);
             if (countdown <= 0) {
-              io.to(client.gameCode).emit('end', "Time up!");  //TODO: endgame stuff
+              io.to(client.gameCode).emit('end', game);  //TODO: endgame stuff
               clearInterval(timerId);
             }
           }, 1000);
@@ -128,7 +128,7 @@ module.exports = function (app, server) {
         // propagate 'end' event if gameOver b/c max correct guesses
         if (result.gameOver) {
           clearInterval(timerId);
-          io.to(client.gameCode).emit('end', "Max correct guesses reached!");
+          io.to(client.gameCode).emit('end', game);
         }
       } else {
         io.to(client.id).emit('antibingo',null);
