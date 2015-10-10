@@ -51,8 +51,12 @@ input {
   width: 80%;
   display: block;
   font-size: 13px;
+  margin: 10px;
   padding: 5px;
-  margin-bottom: 5px;
+}
+
+th {
+  padding:10px;
 }
 
 .game-container {
@@ -134,11 +138,11 @@ input {
 }
 
 .antibingo {
-  background-color: #ff69b4;
+  background-color: #F5C5C5;
 }
 
 .bingo {
-  background-color: green;
+  background-color: #C6EDBE;
 }
 
 /*drawing tools styles*/
@@ -167,7 +171,6 @@ input {
   width: 100%;
   text-align: center;
 }
-
 
 /*end of hdhcss*/
 
