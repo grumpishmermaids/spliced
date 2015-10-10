@@ -236,4 +236,4 @@ module.exports = {
         // we will try to draw it again.
     }
   }
-}
+};

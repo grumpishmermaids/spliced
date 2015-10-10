@@ -40,7 +40,7 @@ module.exports = function (app, server) {
         client.gameCode = joinRequest.gameCode;
         client.playerName = joinRequest.playerName;
         client.join(client.gameCode); // connect client to socket room named their gameCode
-        console.log('game %s: Connected %s to room:', client.gameCode, joinRequest.playerName);
+        console.log('game %s: Connected %s to room:', client.gameCode, joinRequest.playerName, client.gameCode);
 
         io.to(client.id).emit('joinSuccess', client.gameCode);  // send new player success ping
         console.log(joinRequest);
@@ -80,7 +80,7 @@ module.exports = function (app, server) {
             console.log("game %s: sending 'countdown' %s", client.gameCode, countdown);
             io.to(client.gameCode).emit('countdown', countdown);
             if (countdown <= 0) {
-              io.to(client.gameCode).emit('end', "Time up!");  //TODO: endgame stuff
+              io.to(client.gameCode).emit('end', game);  //TODO: endgame stuff
               clearInterval(timerId);
             }
           }, 1000);
@@ -128,11 +128,19 @@ module.exports = function (app, server) {
         // propagate 'end' event if gameOver b/c max correct guesses
         if (result.gameOver) {
           clearInterval(timerId);
-          io.to(client.gameCode).emit('end', "Max correct guesses reached!");
+          io.to(client.gameCode).emit('end', game);
         }
       } else {
         io.to(client.id).emit('antibingo',null);
       }
+    });
+
+
+    client.on('waiting', function () {
+      console.log("waiting player with gameCode %s and socket %s", client.gameCode, client.id);
+      var game = gameLogic.getGame(client.gameCode);
+      var player = game.playersBySocket[client.id];
+      io.to(client.id).emit('elevatorMusic', {game:game, player:player});
     });
 
 

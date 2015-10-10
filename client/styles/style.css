@@ -234,3 +234,24 @@ h1 {
   min-width: 200px;
   height: 200px;
 }
+
+.waitinggamecode {
+  font-size: 24,
+  color: blue,
+  margins: 10px
+}
+.waitinggamename {
+  font-size: 18,
+  color: green,
+  margins: 10px
+}
+.waitingname {
+  font-size: 14,
+  color: purple,
+  margins: 10px
+}
+.waitingscore {
+  font-size: 18,
+  color: red,
+  margins: 10px
+}

@@ -4,11 +4,9 @@ var Player = require('../models/Player.js');
 var _ = require('lodash');
 var Levenshtein = require('fast-levenshtein');
 
-
-
 var Game = function (gameCode, options) {
   this.code = gameCode;
-  this.prompt = getRandomPrompt();
+  this.prompt = "";
   this.name = options.name || "AWESOME SPLICED GAME";
   this.numTiles = options.numTiles || 4;
   this.timeLimit = options.timeLimit || null;
@@ -17,6 +15,7 @@ var Game = function (gameCode, options) {
   this.playersBySocket = {};
   this.players = [];
   this.currentRound = {
+    roundId: 0,
     correctGuesses: 0
   };
 };
@@ -35,12 +34,19 @@ Game.prototype.addPlayer = function (playerOptions) {
 };
 
 Game.prototype.startGame = function () {
-  //TODO: if num players is less than num tiles emit FAAAAIL
+  
+  // get new game prompt, increment round, reset correct guess counter
+  this.prompt = getRandomPrompt();
+  this.currentRound.roundId++;
+  this.currentRound.correctGuesses = 0;
 
-  // assign (numTiles) # of drawers
+  // reset player roles and panelIds
   for (var i=0; i<this.nextAvailablePlayerId; i++) {  //reset everyone to guesser
     this.players[i].role = "guesser";
+    this.players[i].panelId = null; 
   }
+  
+  // randomly assign (numTiles) # of drawers
   var drawerCount = 0;
   var newVictimId;
   while (drawerCount < this.numTiles) {
